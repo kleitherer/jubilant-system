@@ -1,32 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { ScrollView, Button, Image, View, Platform, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { Camera, CameraType } from 'expo-camera';
-import * as MediaLibrary from 'expo-media-library';
-import * as ImagePicker from 'expo-image-picker';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Slider from '@react-native-community/slider';
-
+import {getApps } from 'firebase/app';
 const Stack = createStackNavigator();
 
+import LoginScreen from './client/components/LoginScreen';
 import WelcomeScreen from './client/components/WelcomeScreen';
 import SearchResults from './client/components/SearchResults';
-import VerticalSlider from './client/components/VerticalSlider';
-//make sure you understand where verticalslider is going
 import PreviewScreen from './client/components/PreviewScreen';
 import CameraScreen from './client/components/CameraScreen';
 
 
 
 export default function App() {
+  const apps = getApps();
+  
+  if (!apps.length) {
+    return null;  // or render a loading spinner
+  }
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Welcome">
+      <Stack.Navigator 
+      //initialRouteName="Login"
+      >
+        <Stack.Screen 
+          name="Login"
+          component={LoginScreen}
+          options={{headerShown: false}}
+          /> 
+
+  
         <Stack.Screen 
           name="Welcome" 
           component={WelcomeScreen} 
-          options={{ title: 'Home' }}/>
+          options={{ title: 'Home' }}
+          />
         <Stack.Screen 
           name="Camera" 
           component={CameraScreen} />
@@ -36,6 +44,7 @@ export default function App() {
         <Stack.Screen 
           name="SearchResults" 
           component={SearchResults} />
+  
       </Stack.Navigator>
     </NavigationContainer>
   );

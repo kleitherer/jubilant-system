@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Camera } from 'expo-camera';
+
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import constStyles from '../styles/constStyles'; 
 import VerticalSlider from './VerticalSlider';
+
+import cameraScreenStyles from '../styles/cameraScreenStyles';
 
 function CameraScreen({ navigation }) {
     const [cameraPermission, setCameraPermission] = useState(null);
@@ -13,7 +16,7 @@ function CameraScreen({ navigation }) {
   
     useEffect(() => {
       (async () => {
-        const { status } = await Camera.requestPermissionsAsync();
+        const { status } = await Camera.requestCameraPermissionsAsync();
         setCameraPermission(status === 'granted');
       })();
     }, []);
