@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import welcomePageStyles from '../styles/welcomePageStyles';
 import { authenticated } from '../../firebase';
+import { COLORS, FONTS, SIZES } from '../constants';
 
 const WelcomeScreen = () => {
   const navigation = useNavigation()
@@ -16,7 +17,8 @@ const WelcomeScreen = () => {
   }
   return (
       <View style={welcomePageStyles.container}>
-        <Text> Email: {authenticated.currentUser?.email} </Text>
+        
+        <Text style = {{color: COLORS.dark, ...FONTS.largeTitle}}> Email: {authenticated.currentUser?.email} </Text>
         <TouchableOpacity
         onPress={handleSignOut}
           style = {welcomePageStyles.signOutButton} 

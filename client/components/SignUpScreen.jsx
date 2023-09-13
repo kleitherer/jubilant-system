@@ -23,14 +23,15 @@ const LoginScreen = () => {
     })
     return unsubscribe
   }, [])
+  
 
-  const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password)
-    .then(userCredentials => {
-        const user = userCredentials.user;
-        console.log('Logged in with: ', user.email);
-    })
-    .catch(error => alert(error.message))
+  const handleSignUp = () => {
+        createUserWithEmailAndPassword(auth,email,password)
+        .then(userCredentials => {
+            const user = userCredentials.user;
+            console.log('Signed Up with: ',user.email);
+        })
+        .catch(error => alert(error.message))
   }
 
     return ( 
@@ -38,9 +39,32 @@ const LoginScreen = () => {
             style = {styles.container}
             behavior = "padding"
         >
-        <Text style={styles.boldTitle}>Log In</Text>
+        <Text style={styles.boldTitle}>SignUp</Text>
 
         <View style={styles.inputContainer}>
+            <View style = {styles.placeholderContainer}> 
+                <Text style={styles.inputTitle}>FIRST NAME</Text>
+                <TextInput
+                    //placeholder="Email"
+                    value={email}
+                    onChangeText={text => setEmail(text)}
+                    style={styles.input}
+                    placeholderTextColor="#D3D3D3"
+                />
+            </View>
+
+            <View style = {styles.placeholderContainer}> 
+                <Text style={styles.inputTitle}>LAST NAME</Text>
+                <TextInput
+                    //placeholder="Password"
+                    value={password}
+                    onChangeText={text => setPassword(text)}
+                    style={styles.input}
+                    placeholderTextColor="#D3D3D3"
+                    secureTextEntry
+                />
+            </View>
+
             <View style = {styles.placeholderContainer}> 
                 <Text style={styles.inputTitle}>EMAIL</Text>
                 <TextInput
@@ -65,19 +89,12 @@ const LoginScreen = () => {
             </View>
         </View>
         
-        <View>
+        <View style={styles.buttonContainer}>
             <TouchableOpacity 
-                onPress={handleLogin}
-                style={styles.button}
+                onPress={handleSignUp}
+                style={[styles.button, styles.buttonOutline]}
             >
-                <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-        </View>
-
-        <View style={styles.signUpContainer}>
-            <Text style={styles.minorText}>Don't have an account yet?</Text>
-            <TouchableOpacity onPress={ () => navigation.navigate('SignUp')} style={styles.minorButton}> 
-                <Text style={styles.minorButtonText}>Sign Up</Text>
+                <Text style={styles.buttonOutlineText}>Register</Text>
             </TouchableOpacity>
         </View>
         </KeyboardAvoidingView>
@@ -126,42 +143,32 @@ const styles = StyleSheet.create({
         fontFamily: 'GeneralSans-Semibold',
     },
     buttonContainer: {
-        //width: '100%',
-        //justifyContent: 'center',
-        //alignItems: 'center',
-        marginTop: 50,
+        width: '60%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 40,
     },
     button: {
-        backgroundColor: COLORS.dark,
-        width: 300,
+        backgroundColor: '#0782F9',
+        width: '100%',
         padding: 15,
-        borderRadius: 40,
+        borderRadius: 10,
         alignItems: 'center',
+    },
+    buttonOutline:{
+        backgroundColor: 'white',
+        marginTop: 5,
+        borderColor: '#0782F9',
+        borderWidth: 2,
     },
     buttonText: {
         color: 'white',
         fontWeight: '700',
         fontSize: 16,
-        fontFamily: 'GeneralSans-Semibold',
     },
-    signUpContainer: {
-        flexDirection: 'row', 
-        alignItems: 'center',
-    },
-    minorText: {
-        fontSize: 12,
-        color: 'gray',
-        fontFamily: 'GeneralSans-Regular',
-    },
-    minorButton: {
-        padding: 15,
-        borderRadius: 40,
-        //alignItems: 'center',
-    },
-    minorButtonText: {
-        color: COLORS.dark,
+    buttonOutlineText: {
+        color: '#0782F9',
         fontWeight: '700',
-        fontSize: 12,
-        fontFamily: 'GeneralSans-Regular',
-    }
+        fontSize: 16,
+    },
 });
