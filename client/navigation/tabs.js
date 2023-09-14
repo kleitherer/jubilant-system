@@ -1,5 +1,5 @@
 import React from 'react';
-import {COLORS, icons } from "../constants";
+import {COLORS, FONTS, SIZES, icons } from "../constants";
 import {
     View,
     Image,
@@ -17,23 +17,34 @@ const Tab = createBottomTabNavigator();
 const Tabs = () => {
     return (
         <Tab.Navigator
+        tabBarOptions={{
+            activeTintColor: COLORS.dark,
+            inactiveTintColor: 'grey',
+            labelStyle: {
+                fontFamily: 'GeneralSans-Medium', // Change this to your desired font family
+                fontSize: 11
+            },
+        }}
         >
             <Tab.Screen 
                 name = "Welcome"
                 component={WelcomeScreen}
                 options={{
                     headerShown: false,
-                    tabBarIcon: ({focused}) => (
+                    tabBarIcon: ({focused}) => {
+                        const iconSource = focused ? icons.homeFilled : icons.homeOutline;
+                        return (
                         <Image 
-                            source = {icons.homeIcon}
+                            source = {iconSource}
                             resizeMode="contain"
                             style={{
                                 width:25,
                                 height: 25,
-                                tintColor: focused ? COLORS.highlight : COLORS.dark
+                                tintColor: COLORS.dark
                             }}
-                            />
-                    )
+                        />
+                        );
+                        }
                 }}
             />
             <Tab.Screen 
@@ -41,17 +52,20 @@ const Tabs = () => {
                 component={CameraScreen}
                 options={{
                     headerShown: false,
-                    tabBarIcon: ({focused}) => (
+                    tabBarIcon: ({focused}) => {
+                        const iconSource = focused ? icons.addFilled : icons.addOutline;
+                        return (
                         <Image 
-                            source = {icons.addIcon}
+                            source = {iconSource}
                             resizeMode="contain"
                             style={{
                                 width:25,
                                 height: 25,
-                                tintColor: focused ? COLORS.highlight : COLORS.dark
+                                tintColor: COLORS.dark
                             }}
-                            />
-                    )
+                        />
+                        );
+                        }
                 }}
             />
             <Tab.Screen 
@@ -59,17 +73,20 @@ const Tabs = () => {
                 component={ProfileScreen}
                 options={{
                     headerShown: false,
-                    tabBarIcon: ({focused}) => (
+                    tabBarIcon: ({focused}) => {
+                        const iconSource = focused ? icons.profileFilled : icons.profileOutline;
+                        return (
                         <Image 
-                            source = {icons.userIcon}
+                            source = {iconSource}
                             resizeMode="contain"
                             style={{
                                 width:25,
                                 height: 25,
-                                tintColor: focused ? COLORS.highlight : COLORS.dark
+                                tintColor: COLORS.dark
                             }}
-                            />
-                    )
+                        />
+                        );
+                        }
                 }}
             />
         </Tab.Navigator>
