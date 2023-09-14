@@ -4,9 +4,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import { COLORS, FONTS, SIZES } from '../constants';
+import authenticationStyles from '../styles/authenticationStyles';
 
 import { authenticated } from '../../firebase';
-const LoginScreen = () => {
+const SignUpScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -36,139 +37,77 @@ const LoginScreen = () => {
 
     return ( 
         <KeyboardAvoidingView
-            style = {styles.container}
+            style = {authenticationStyles.container}
             behavior = "padding"
         >
-        <Text style={styles.boldTitle}>SignUp</Text>
+        <Text style={authenticationStyles.boldTitle}>SignUp</Text>
 
-        <View style={styles.inputContainer}>
-            <View style = {styles.placeholderContainer}> 
-                <Text style={styles.inputTitle}>FIRST NAME</Text>
+        <View style={authenticationStyles.inputContainer}>
+            <View style = {authenticationStyles.placeholderContainer}> 
+                <Text style={authenticationStyles.inputTitle}>FIRST NAME</Text>
                 <TextInput
                     //placeholder="Email"
                     value={email}
                     onChangeText={text => setEmail(text)}
-                    style={styles.input}
+                    style={authenticationStyles.input}
                     placeholderTextColor="#D3D3D3"
                 />
             </View>
 
-            <View style = {styles.placeholderContainer}> 
-                <Text style={styles.inputTitle}>LAST NAME</Text>
+            <View style = {authenticationStyles.placeholderContainer}> 
+                <Text style={authenticationStyles.inputTitle}>LAST NAME</Text>
                 <TextInput
                     //placeholder="Password"
                     value={password}
                     onChangeText={text => setPassword(text)}
-                    style={styles.input}
+                    style={authenticationStyles.input}
                     placeholderTextColor="#D3D3D3"
                     secureTextEntry
                 />
             </View>
 
-            <View style = {styles.placeholderContainer}> 
-                <Text style={styles.inputTitle}>EMAIL</Text>
+            <View style = {authenticationStyles.placeholderContainer}> 
+                <Text style={authenticationStyles.inputTitle}>EMAIL</Text>
                 <TextInput
                     //placeholder="Email"
                     value={email}
                     onChangeText={text => setEmail(text)}
-                    style={styles.input}
+                    style={authenticationStyles.input}
                     placeholderTextColor="#D3D3D3"
                 />
             </View>
 
-            <View style = {styles.placeholderContainer}> 
-                <Text style={styles.inputTitle}>PASSWORD</Text>
+            <View style = {authenticationStyles.placeholderContainer}> 
+                <Text style={authenticationStyles.inputTitle}>PASSWORD</Text>
                 <TextInput
                     //placeholder="Password"
                     value={password}
                     onChangeText={text => setPassword(text)}
-                    style={styles.input}
+                    style={authenticationStyles.input}
                     placeholderTextColor="#D3D3D3"
                     secureTextEntry
                 />
             </View>
         </View>
         
-        <View style={styles.buttonContainer}>
+        <View style={authenticationStyles.buttonContainer}>
             <TouchableOpacity 
                 onPress={handleSignUp}
-                style={[styles.button, styles.buttonOutline]}
+                style={[authenticationStyles.button]}
             >
-                <Text style={styles.buttonOutlineText}>Register</Text>
+                <Text style={authenticationStyles.buttonText}>Register</Text>
             </TouchableOpacity>
         </View>
+
+        <View style={authenticationStyles.signUpContainer}>
+            <Text style={authenticationStyles.minorText}>Already have an account?</Text>
+            <TouchableOpacity onPress={ () => navigation.navigate('Login')} style={authenticationStyles.minorButton}> 
+                <Text style={authenticationStyles.minorButtonText}>Log in</Text>
+            </TouchableOpacity>
+        </View>
+
         </KeyboardAvoidingView>
   )
 }
 
-export default LoginScreen
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-    },
-    boldTitle: {
-        ...FONTS.largeTitle,
-        textAlign: 'center',
-        marginTop: 80,
-        fontSize: 70,
-        paddingBottom: 30
-    },
-    inputContainer: {
-        width: '75%',  
-        marginBottom: 20,
-        marginTop: 20,
-        marginHorizontal: 30,
-    },
-    
-    placeholderContainer: {
-        marginBottom: 20,
-    },
-
-    //this is the props of the EMAIL/PASSWORD labels above the form
-    inputTitle: {
-        fontSize: 12,
-        color: 'gray',
-        fontFamily: 'GeneralSans-Regular',
-    },
-    //this is the props of the inner input
-    input: {
-        borderBottomWidth: 2,
-        borderBottomColor: COLORS.dark,
-        fontSize: 15,
-        height: 40,
-        color: COLORS.dark,
-        marginBottom: 10,
-        fontFamily: 'GeneralSans-Semibold',
-    },
-    buttonContainer: {
-        width: '60%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 40,
-    },
-    button: {
-        backgroundColor: '#0782F9',
-        width: '100%',
-        padding: 15,
-        borderRadius: 10,
-        alignItems: 'center',
-    },
-    buttonOutline:{
-        backgroundColor: 'white',
-        marginTop: 5,
-        borderColor: '#0782F9',
-        borderWidth: 2,
-    },
-    buttonText: {
-        color: 'white',
-        fontWeight: '700',
-        fontSize: 16,
-    },
-    buttonOutlineText: {
-        color: '#0782F9',
-        fontWeight: '700',
-        fontSize: 16,
-    },
-});
+export default SignUpScreen;

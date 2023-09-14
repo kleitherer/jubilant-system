@@ -19,16 +19,18 @@ const WelcomeScreen = () => {
       <View style={welcomePageStyles.container}>
         
         <Text style = {{color: COLORS.dark, ...FONTS.largeTitle}}> Email: {authenticated.currentUser?.email} </Text>
-        <TouchableOpacity
+       {/*
+       <TouchableOpacity
         onPress={handleSignOut}
           style = {welcomePageStyles.signOutButton} 
         >
           <Text style={welcomePageStyles.signOutButtonText}>Sign out</Text>
         </TouchableOpacity>
-
+        
         <TouchableOpacity style = {welcomePageStyles.OpenCamButton} onPress={() => navigation.navigate('Camera')}>
           <Text style = {welcomePageStyles.buttonText}>Open Camera</Text>
         </TouchableOpacity>
+  */}
       </View>
     );
   }

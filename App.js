@@ -12,6 +12,8 @@ import SearchResults from './client/components/SearchResults';
 import PreviewScreen from './client/components/PreviewScreen';
 import CameraScreen from './client/components/CameraScreen';
 
+import Tabs from './client/navigation/tabs';
+
 
 
 export default function App() {
@@ -57,10 +59,12 @@ export default function App() {
 
   return (
     <NavigationContainer>
+      
       <Stack.Navigator 
-      //initialRouteName="Login"
       >
+        
         <Stack.Screen 
+        
           name="Login"
           component={LoginScreen}
           options={{headerShown: false}}
@@ -70,6 +74,14 @@ export default function App() {
           component={SignUpScreen}
           options={{headerShown: false}}
           /> 
+       
+        <Stack.Screen
+          name="BottomTabBar"
+          component={Tabs}
+          options={{headerShown: false}}
+        />
+
+        {/*
         <Stack.Screen 
           name="Welcome" 
           component={WelcomeScreen} 
@@ -77,7 +89,11 @@ export default function App() {
           />
         <Stack.Screen 
           name="Camera" 
-          component={CameraScreen} />
+          component={CameraScreen} 
+          options={{headerShown: false}}
+          />
+  */}
+  
         <Stack.Screen 
           name="Preview" 
           component={PreviewScreen} />
