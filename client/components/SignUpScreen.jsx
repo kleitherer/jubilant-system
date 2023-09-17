@@ -1,13 +1,15 @@
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import { COLORS, FONTS, SIZES } from '../constants';
 import authenticationStyles from '../styles/authenticationStyles';
 
-import { authenticated } from '../../firebase';
+import { authenticated, db } from '../../firebase';
 const SignUpScreen = () => {
+const [firstName, setFirstName] = useState('');
+const [lastName, setLastName] = useState(''); 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -19,7 +21,7 @@ const SignUpScreen = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
-            navigation.replace("Welcome")
+            navigation.navigate("Welcome")
         }
     })
     return unsubscribe
@@ -31,41 +33,52 @@ const SignUpScreen = () => {
         .then(userCredentials => {
             const user = userCredentials.user;
             console.log('Signed Up with: ',user.email);
+            return db.collection('users').doc(user.uid).set({
+                firstName,
+                lastName,
+                email
+            });
         })
-        .catch(error => alert(error.message))
+        .then(() => {
+            console.log('User details added to Firestore!');
+        })
+    .catch(error => alert(error.message))
   }
 
     return ( 
         <KeyboardAvoidingView
             style = {authenticationStyles.container}
             behavior = "padding"
+            keyboardVerticalOffset={Platform.OS === "ios" ? 20 : 0}
+
         >
-        <Text style={authenticationStyles.boldTitle}>SignUp</Text>
+        <Text style={authenticationStyles.boldTitle}>Sign Up</Text>
 
         <View style={authenticationStyles.inputContainer}>
-            <View style = {authenticationStyles.placeholderContainer}> 
-                <Text style={authenticationStyles.inputTitle}>FIRST NAME</Text>
-                <TextInput
-                    //placeholder="Email"
-                    value={email}
-                    onChangeText={text => setEmail(text)}
-                    style={authenticationStyles.input}
-                    placeholderTextColor="#D3D3D3"
-                />
+            <View style = {authenticationStyles.nameContainer}> 
+                <View style = {[authenticationStyles.placeholderContainer, authenticationStyles.halfContainer]}>
+                    <Text style={authenticationStyles.inputTitle}>FIRST NAME</Text>
+                    <TextInput
+                        //placeholder="Email"
+                        value={firstName}
+                        onChangeText={text => setFirstName(text)}
+                        style={authenticationStyles.input}
+                        placeholderTextColor="#D3D3D3"
+                    />
+                </View>
+                <View style = {[authenticationStyles.placeholderContainer, authenticationStyles.halfContainer]}>
+                    <Text style={authenticationStyles.inputTitle}>LAST NAME</Text>
+                    <TextInput
+                        //placeholder="Password"
+                        value={lastName}
+                        onChangeText={text => setLastName(text)}
+                        style={authenticationStyles.input}
+                        placeholderTextColor="#D3D3D3"
+                        secureTextEntry
+                    />
+                </View>
             </View>
-
-            <View style = {authenticationStyles.placeholderContainer}> 
-                <Text style={authenticationStyles.inputTitle}>LAST NAME</Text>
-                <TextInput
-                    //placeholder="Password"
-                    value={password}
-                    onChangeText={text => setPassword(text)}
-                    style={authenticationStyles.input}
-                    placeholderTextColor="#D3D3D3"
-                    secureTextEntry
-                />
-            </View>
-
+            
             <View style = {authenticationStyles.placeholderContainer}> 
                 <Text style={authenticationStyles.inputTitle}>EMAIL</Text>
                 <TextInput
@@ -95,7 +108,7 @@ const SignUpScreen = () => {
                 onPress={handleSignUp}
                 style={[authenticationStyles.button]}
             >
-                <Text style={authenticationStyles.buttonText}>Register</Text>
+                <Text style={authenticationStyles.buttonText}>Create Account</Text>
             </TouchableOpacity>
         </View>
 
@@ -105,9 +118,9 @@ const SignUpScreen = () => {
                 <Text style={authenticationStyles.minorButtonText}>Log in</Text>
             </TouchableOpacity>
         </View>
-
-        </KeyboardAvoidingView>
+    </KeyboardAvoidingView>
   )
 }
 
 export default SignUpScreen;
+

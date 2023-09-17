@@ -37,6 +37,8 @@ export default function App() {
       'GeneralSans-Variable': require('./client/assets/fonts/GeneralSans-Variable.ttf'),
       'GeneralSans-VariableItalic': require('./client/assets/fonts/GeneralSans-VariableItalic.ttf'),
 
+      'SpaceMono-Regular': require('./client/assets/fonts/SpaceMono-Regular.ttf'),
+
       //playfair display
       'PlayfairDisplayBlack-RpvVa': require('./client/assets/fonts/PlayfairDisplayBlack-RpvVA.ttf'),
       'PlayfairDisplayBold-nRv8g': require('./client/assets/fonts/PlayfairDisplayBold-nRv8g.ttf'),

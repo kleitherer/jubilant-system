@@ -8,6 +8,7 @@
 
 import { getAuth } from 'firebase/auth';
 import { getApps, initializeApp } from 'firebase/app';
+import { getFirestore } from "firebase/firestore";
 
 //import 'firebase/auth';
 
@@ -26,20 +27,10 @@ if (!getApps().length) {
     app = initializeApp(firebaseConfig);
     console.log("Firebase Initialized!");
 } else {
-    app = getApp();
+    app = getApps();
 }
 
 const authenticated = getAuth(app);
-export { authenticated };
+const db = getFirestore(app);
 
-
-/* 
-import { getApps, initializeApp } from 'firebase/app';
-let app;
-if (firebase.apps.length===0) {
-    app = firebase.initializeApp(firebaseConfig)
-}else {
-    app = firebase.app()
-}
-
-*/
+export { authenticated, db };

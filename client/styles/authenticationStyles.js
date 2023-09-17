@@ -11,21 +11,29 @@ const authenticationStyles = StyleSheet.create({
     boldTitle: {
         ...FONTS.largeTitle,
         textAlign: 'center',
-        marginTop: 80,
-        fontSize: 70,
-        paddingBottom: 30
+        marginTop: 65,
+        fontSize: 65,
+        paddingBottom: 10
     },
     inputContainer: {
         width: '75%',  
-        marginBottom: 20,
+        //marginBottom: 20,
         marginTop: 20,
         marginHorizontal: 30,
     },
     
     placeholderContainer: {
-        marginBottom: 20,
+        marginBottom: 15,
     },
-
+    nameContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    halfContainer: {
+        flex: 0.48,
+        marginBottom: 15,
+    },
     //this is the props of the EMAIL/PASSWORD labels above the form
     inputTitle: {
         fontSize: 12,
@@ -36,17 +44,17 @@ const authenticationStyles = StyleSheet.create({
     input: {
         borderBottomWidth: 2,
         borderBottomColor: COLORS.dark,
-        fontSize: 15,
+        fontSize: 14,
         height: 40,
         color: COLORS.dark,
-        marginBottom: 10,
+        marginBottom: 5,
         fontFamily: 'GeneralSans-Semibold',
     },
     buttonContainer: {
         //width: '100%',
         //justifyContent: 'center',
         //alignItems: 'center',
-        marginTop: 50,
+        marginTop: 10,
     },
     button: {
         backgroundColor: COLORS.dark,
