@@ -1,10 +1,12 @@
 import { KeyboardAvoidingView, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import {createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import { COLORS, FONTS, SIZES } from '../constants';
 import authenticationStyles from '../styles/authenticationStyles';
+import { collection, doc, setDoc } from "firebase/firestore";
+
 
 import { authenticated, db } from '../../firebase';
 const SignUpScreen = () => {
@@ -21,7 +23,7 @@ const [lastName, setLastName] = useState('');
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
-            navigation.navigate("Welcome")
+            navigation.navigate("BottomTabBar", {screen: "Welcome"})
         }
     })
     return unsubscribe
@@ -33,7 +35,8 @@ const [lastName, setLastName] = useState('');
         .then(userCredentials => {
             const user = userCredentials.user;
             console.log('Signed Up with: ',user.email);
-            return db.collection('users').doc(user.uid).set({
+    
+            return setDoc(doc(collection(db, "users"), user.uid), {
                 firstName,
                 lastName,
                 email
@@ -41,8 +44,12 @@ const [lastName, setLastName] = useState('');
         })
         .then(() => {
             console.log('User details added to Firestore!');
+
         })
-    .catch(error => alert(error.message))
+    .catch(error => {
+        console.error("Error during sign up or saving to Firestore:", error);
+        alert(error.message);
+    });
   }
 
     return ( 
@@ -74,7 +81,6 @@ const [lastName, setLastName] = useState('');
                         onChangeText={text => setLastName(text)}
                         style={authenticationStyles.input}
                         placeholderTextColor="#D3D3D3"
-                        secureTextEntry
                     />
                 </View>
             </View>

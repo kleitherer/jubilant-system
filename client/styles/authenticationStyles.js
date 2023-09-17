@@ -45,15 +45,12 @@ const authenticationStyles = StyleSheet.create({
         borderBottomWidth: 2,
         borderBottomColor: COLORS.dark,
         fontSize: 14,
-        height: 40,
+        height: 35,
         color: COLORS.dark,
         marginBottom: 5,
         fontFamily: 'GeneralSans-Semibold',
     },
     buttonContainer: {
-        //width: '100%',
-        //justifyContent: 'center',
-        //alignItems: 'center',
         marginTop: 10,
     },
     button: {
