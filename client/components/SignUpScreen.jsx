@@ -9,6 +9,7 @@ import { collection, doc, setDoc } from "firebase/firestore";
 
 
 import { authenticated, db } from '../../firebase';
+
 const SignUpScreen = () => {
 const [firstName, setFirstName] = useState('');
 const [lastName, setLastName] = useState(''); 
@@ -23,7 +24,7 @@ const [lastName, setLastName] = useState('');
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
-            navigation.navigate("BottomTabBar", {screen: "Welcome"})
+            navigation.navigate("BottomTabBar", {screen: "Home"})
         }
     })
     return unsubscribe

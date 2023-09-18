@@ -27,7 +27,7 @@ const Tabs = () => {
         }}
         >
             <Tab.Screen 
-                name = "Welcome"
+                name = "Home"
                 component={WelcomeScreen}
                 options={{
                     headerShown: false,
