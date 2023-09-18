@@ -40,7 +40,8 @@ const [lastName, setLastName] = useState('');
             return setDoc(doc(collection(db, "users"), user.uid), {
                 firstName,
                 lastName,
-                email
+                email,
+                profileImageUrl: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
             });
         })
         .then(() => {

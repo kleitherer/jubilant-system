@@ -9,8 +9,7 @@
 import { getAuth } from 'firebase/auth';
 import { getApps, initializeApp } from 'firebase/app';
 import { getFirestore } from "firebase/firestore";
-
-//import 'firebase/auth';
+import { getStorage } from "firebase/storage";
 
 // Check if default app is initialized
 const firebaseConfig = {
@@ -27,10 +26,11 @@ if (!getApps().length) {
     app = initializeApp(firebaseConfig);
     console.log("Firebase Initialized!");
 } else {
-    app = getApps();
+    app = getApp();
 }
 
 const authenticated = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
 
-export { authenticated, db };
+export { authenticated, db, storage };
