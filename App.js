@@ -1,15 +1,22 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import 'react-native-gesture-handler';
 const Stack = createStackNavigator();
 import * as Font from 'expo-font';
-import AppLoading from 'expo-app-loading';
+
+import * as SplashScreen from 'expo-splash-screen';
+
+//import AppLoading from 'expo-app-loading';
 
 import SignUpScreen from './client/components/SignUpScreen';
 import LoginScreen from './client/components/LoginScreen';
 import WelcomeScreen from './client/components/WelcomeScreen';
 import SearchResults from './client/components/SearchResults';
 import PreviewScreen from './client/components/PreviewScreen';
+import EditProfileScreen from './client/components/EditProfileScreen';
+import Settings from './client/components/Settings';
+
 import CameraScreen from './client/components/CameraScreen';
 
 import Tabs from './client/navigation/tabs';
@@ -18,6 +25,8 @@ import Tabs from './client/navigation/tabs';
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [appIsReady, setAppIsReady] = useState(false);
+
 
   const loadFonts = async () => {
     await Font.loadAsync({
@@ -48,16 +57,26 @@ export default function App() {
     });
   };
 
-  if (!fontsLoaded) {
-    return (
-      <AppLoading
-        startAsync={loadFonts}
-        onFinish={() => setFontsLoaded(true)}
-        onError={console.warn}
-      />
-    );
-  }
+  useEffect(() => {
+    const prepareResources = async () => {
+        try {
+            await SplashScreen.preventAutoHideAsync();  // Prevent the splash screen from hiding automatically
+            await loadFonts();
+        } catch (error) {
+            console.warn(error);
+        } finally {
+            setFontsLoaded(true);
+            setAppIsReady(true);
+            SplashScreen.hideAsync();  // Hide the splash screen manually
+        }
+    };
 
+    prepareResources();
+}, []);
+
+if (!appIsReady) {
+  return null; // Or some placeholder loading screen if you have one
+}
 
   return (
     <NavigationContainer>
@@ -102,7 +121,20 @@ export default function App() {
         <Stack.Screen 
           name="SearchResults" 
           component={SearchResults} />
-  
+        <Stack.Screen 
+          name="EditProfileScreen" 
+          component={EditProfileScreen}
+          options={{
+              headerBackTitle: null,
+              title: "Edit Profile",
+            }}/>
+        <Stack.Screen 
+          name="Settings" 
+          component={Settings} 
+          options={{
+            headerBackTitle: null,
+            title: "Settings",
+          }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

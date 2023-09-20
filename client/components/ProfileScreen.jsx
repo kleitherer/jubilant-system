@@ -7,63 +7,27 @@ import { COLORS, FONTS, SIZES } from '../constants';
 import { setDoc, getDoc, doc } from "firebase/firestore";
 import { db, storage } from "../../firebase"; 
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+// ... other imports
+import { Ionicons } from '@expo/vector-icons';
 
 import * as ImagePicker from 'expo-image-picker';
+import EditProfileScreen from './EditProfileScreen';
+import Settings from './Settings';
 
 
 const ProfileScreen = () => {
     const [userData, setUserData] = useState(null);
     const auth = authenticated;
     const navigation = useNavigation()
-    
-    const handlePickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.All,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1
-        });
-    
-        if (!result.canceled && result.assets && result.assets.length > 0) {
-            const uri = result.assets[0].uri;
-            const downloadURL = await uploadImageToFirebase(uri);
-            updateProfileImage(downloadURL);
-        }
-    };
-    
-    
 
-    const uploadImageToFirebase = async (uri) => {
-        const response = await fetch(uri);
-        const blob = await response.blob();
-    
-        const storageRef = ref(storage, `profileImages/${auth.currentUser.uid}`);
-        await uploadBytes(storageRef, blob); // This uploads the blob to Firebase Storage.
-    
-        // Return the download URL for the uploaded image
-        return getDownloadURL(storageRef);
-    }
-    
-    
-    
-
-    const updateProfileImage = async (downloadURL) => {
-        const userRef = doc(db, 'users', auth.currentUser.uid);
-        await setDoc(userRef, {
-            profileImageUrl: downloadURL
-        }, { merge: true });
-    
-        setUserData((prevData) => ({ ...prevData, profileImageUrl: downloadURL }));
+    const handleEditProfile = () => {
+        navigation.navigate("EditProfileScreen")
     }
 
+    const handleNavigateSettings = () => {
+        navigation.navigate("Settings")
+    }
 
-    const handleSignOut = () => {
-        authenticated.signOut()
-        .then(() => {
-          navigation.navigate("Login")
-        })
-        .catch(error => alert(error.message))
-      }
       useEffect(() => {
         if (auth.currentUser) {
           const fetchData = async () => {
@@ -87,6 +51,12 @@ const ProfileScreen = () => {
 
     return (
     <View style={styles.container}>
+       <View style={styles.topBarContainer}> 
+            <TouchableOpacity onPress={handleNavigateSettings}>
+                <Ionicons name="settings-outline" size={24} color="black" />
+            </TouchableOpacity>
+       </View>
+        <View style={styles.personalInfoContainer}>
         <Image
             source={{
                 uri: userData?.profileImageUrl || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
@@ -98,15 +68,15 @@ const ProfileScreen = () => {
           <Text style={styles.title}>{userData.firstName} {userData.lastName} </Text>
         </>
       )}
-      <TouchableOpacity onPress={handlePickImage}>
-            <Text>Change Profile Picture</Text>
+      </View>
+      <View style={styles.changeScreensContainer}>
+        <TouchableOpacity onPress={handleEditProfile} style={styles.button}>
+            <Text style={styles.buttonText}>edit profile</Text>
         </TouchableOpacity>
-      <TouchableOpacity
-        onPress={handleSignOut}
-          style = {welcomePageStyles.signOutButton} 
-        >
-          <Text style={welcomePageStyles.signOutButtonText}>Sign out</Text>
+        <TouchableOpacity onPress={handleEditProfile} style={styles.button}>
+            <Text style={styles.buttonText}>your style</Text>
         </TouchableOpacity>
+        </View>
     </View>
   )
 }
@@ -116,22 +86,52 @@ export default ProfileScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center"
+        alignItems: "center",  
+        justifyContent: "flex-start",
+    },
+    topBarContainer: {
+        width: '100%',          
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        marginTop: 50,
+        marginRight: 30,  
+    },
+    personalInfoContainer: {
+        alignItems: 'center',
+    },
+    changeScreensContainer: {
+        flexDirection: 'row',  // This ensures the children are aligned horizontally
+        justifyContent: 'space-between', // This provides space between the two buttons
+        alignItems: 'center',  // This ensures the buttons are vertically aligned in the center
+        padding: 10, // Optional: Provides some spacing around the container
     },
     title: {
         fontSize: 20,
-        fontWeight: "bold",
-        margin: 20,
+        //fontWeight: "bold",
+        marginTop: 15,
+        fontFamily: 'GeneralSans-Semibold',
+    },
+    image: {
+        width: 100,  
+        aspectRatio: 1,
+        borderRadius: 200,
     },
     separator: {
         marginVertical: 30,
         height: 1,
         width: "80%",
     },
-    image: {
-        width: 200,  
-        aspectRatio: 1,
-        borderRadius: 200,
-    }
+    button: {
+        backgroundColor: '#e3e3e3',
+        //width: 130,
+        padding: 10,
+        margin: 3,
+        borderRadius: 9,
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: COLORS.dark,
+        fontSize: 13,
+        fontFamily: 'GeneralSans-Medium',
+    },
 });
