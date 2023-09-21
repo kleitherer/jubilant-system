@@ -8,6 +8,7 @@ import { setDoc, getDoc, doc } from "firebase/firestore";
 import { db, storage } from "../../firebase"; 
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
 // ... other imports
+import authenticationStyles from '../styles/authenticationStyles';
 import { Ionicons } from '@expo/vector-icons';
 
 import * as ImagePicker from 'expo-image-picker';
@@ -25,28 +26,41 @@ const Settings = () => {
         .catch(error => alert(error.message))
       }
     return (
-    <View>
-        <TouchableOpacity onPress={handleSignOut} style = {styles.button}>
-          <Text style={styles.buttonText}>sign out</Text>
-        </TouchableOpacity>
-    </View>
+        <View style={styles.container}>
+            <TouchableOpacity onPress={handleSignOut} style={styles.button}>
+                <Text style={styles.buttonText}>Sign Out</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>Privacy</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>Light/Dark Mode</Text>
+            </TouchableOpacity>
+        </View>
   )
 }
 
 export default Settings;
 
 const styles = StyleSheet.create({
-    button: {
-        backgroundColor: '#e3e3e3',
-        //width: 130,
-        padding: 10,
-        margin: 3,
-        borderRadius: 9,
+    container: {
+        flex: 1,
+        backgroundColor: 'white',
+        justifyContent: 'top',
         alignItems: 'center',
+        padding: 10,
+    },
+    button: {
+        ...authenticationStyles.button,
+        width: 250,
+        padding: 10,
+        borderRadius: 20,
+        marginBottom: 10, // Spacing between the buttons
     },
     buttonText: {
-        color: COLORS.dark,
-        fontSize: 13,
-        fontFamily: 'GeneralSans-Medium',
-    },
+        ...authenticationStyles.buttonText,
+        fontSize: 14,
+    }
 })

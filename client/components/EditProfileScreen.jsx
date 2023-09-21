@@ -149,6 +149,7 @@ const editProfileStyles = StyleSheet.create({
     },
     imageContainer: {
         alignItems: 'center',
+        marginTop: 30
     },
     image: {
         width: 125,
@@ -158,7 +159,7 @@ const editProfileStyles = StyleSheet.create({
     },
     button: {
         ...authenticationStyles.button,
-        width: 200,
+        width: 130,
         padding: 10,
         borderRadius: 20,
     },
@@ -178,6 +179,7 @@ const editProfileStyles = StyleSheet.create({
     },
     saveButtonContainer: {
         marginTop: 20,
+        alignItems: "center"
     },
     saveButton: {
         ...authenticationStyles.button,

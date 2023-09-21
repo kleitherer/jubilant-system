@@ -16,6 +16,8 @@ import SearchResults from './client/components/SearchResults';
 import PreviewScreen from './client/components/PreviewScreen';
 import EditProfileScreen from './client/components/EditProfileScreen';
 import Settings from './client/components/Settings';
+import SavedLikesScreen from './client/components/SavedLikesScreen';
+import SavedSearchesScreen from './client/components/SavedSearchesScreen';
 
 import CameraScreen from './client/components/CameraScreen';
 

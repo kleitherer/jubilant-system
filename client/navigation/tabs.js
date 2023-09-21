@@ -51,7 +51,7 @@ const Tabs = () => {
                             style={{
                                 width: 25,
                                 height: 25,
-                                tintColor: COLORS.dark
+                                tintColor: 'grey'
                             }}
                         />
                     );

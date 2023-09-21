@@ -50,6 +50,7 @@ const LoginScreen = () => {
                     //placeholder="Email"
                     value={email}
                     onChangeText={text => setEmail(text)}
+                    keyboardType="email-address"
                     style={authenticationStyles.input}
                     placeholderTextColor="#D3D3D3"
                 />
